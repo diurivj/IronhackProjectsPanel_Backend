@@ -3,7 +3,7 @@ const User = require('../models/User');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
-//const sendInvitation = require('../helpers/signInInvitation').sendInvitation;
+const sendInvitation = require('../helpers/singInInvitation').sendInvitation;
 
 function jwtdiuri(req, res, next) {
   console.log(req.headers);
@@ -47,7 +47,7 @@ router.post('/invitation', (req,res,next)=>{
 router.post('/signup', (req,res,next)=>{
   User.register(req.body, req.body.password)
   .then(user=>{
-    //sendInvitation(user);
+    sendInvitation(user);
     res.json(user);
   })
   .catch(err=>{
