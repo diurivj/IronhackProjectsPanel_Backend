@@ -1,12 +1,13 @@
 const Schema = require('mongoose').Schema
 
 const cohortSchema = new Schema({
-  users: [{
+  students: [{
     type: Schema.Types.ObjectId,
     ref: 'Student'
   }],
   date: String,
-  name: String
+  name: String,
+  generation: Number
 }, {
   timestamps: {
     createdAt: 'created_at',

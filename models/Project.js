@@ -1,7 +1,7 @@
 const Schema = require('mongoose').Schema
 
 const projectSchema = new Schema({
-  user: {
+  student: {
     type: Schema.Types.ObjectId,
     ref: 'Student'
   },
@@ -9,7 +9,7 @@ const projectSchema = new Schema({
   title: String,
   presentation_slides: String,
   deployed_site: String,
-  github_repo: String
+  github_repo: [String]
 }, {
   timestamps: {
     createdAt: 'created_at',

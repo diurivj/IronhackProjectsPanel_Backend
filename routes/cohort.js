@@ -9,4 +9,9 @@ router.get('/all', (req, res) => {
   Cohort.find().then(result => res.json(result)).catch(error => console.log(error))
 })
 
+router.get('/:id/students/', (req, res) => {
+  Cohort.findById(req.params.id).populate('students')
+  .then(result => res.json(result)).catch(error => console.log(error))
+})
+
 module.exports = router
