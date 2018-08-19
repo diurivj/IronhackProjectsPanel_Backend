@@ -1,5 +1,6 @@
-const router = require('express').Router()
-const Cohort = require('../models/Cohort')
+const router  = require('express').Router()
+const Cohort  = require('../models/Cohort')
+const Student = require('../models/Student')
 
 router.post('/create_new', (req, res, next) => {
   Cohort.create(req.body).then(result => res.json(result)).catch(error => console.log(error))
@@ -15,7 +16,13 @@ router.get('/:id/students', (req, res) => {
 })
 
 router.patch('/update/:id', (req, res, next) => {
-  Cohort.findByIdAndUpdate(req.params.id, {$push: {students: req.body.students}}, {new: true}).then(result => res.json(result)).catch(error => console.log(error))
+  Student.findOne({email: req.body.email})
+  .then(user => {
+    Cohort.findByIdAndUpdate(req.params.id, {$push: {students: user}}, {new: true})
+    .then(result => res.json(result)).catch(error => console.log(error))
+  })
+  .catch(error => console.log(error))
+
 })
 
 module.exports = router
