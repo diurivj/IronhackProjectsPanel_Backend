@@ -6,9 +6,8 @@ router.put('/create_new', (req, res, next) => {
   Student.create(req.body)
   .then(student => {
     Cohort.findByIdAndUpdate(student.cohort, {$push: {students: student._id}}, {new: true})
-    .then(cohort => {
-      console.log(cohort)
-    })
+    .then(cohort => cohort)
+    .catch(error => console.log(error))
     res.json(student)
   })
   .catch(error => console.log(error))
