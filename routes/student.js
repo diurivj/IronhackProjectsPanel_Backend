@@ -14,7 +14,7 @@ router.put('/create_new', (req, res, next) => {
 })
 
 router.get('/all', (req, res) => {
-  Student.find().then(result => res.json(result)).catch(error => console.log(error))
+  Student.find().populate('cohort').then(result => res.json(result)).catch(error => console.log(error))
 })
 
 router.get('/project/:id', (req, res) => {
