@@ -1,8 +1,17 @@
 const router  = require('express').Router()
 const Student = require('../models/Student') 
+const Cohort  = require('../models/Cohort')
 
-router.post('/create_new', (req, res, next) => {
-  Student.create(req.body).then(result => res.json(result)).catch(error => console.log(error))
+router.put('/create_new', (req, res, next) => {
+  Student.create(req.body)
+  .then(student => {
+    Cohort.findByIdAndUpdate(student.cohort, {$push: {students: student._id}}, {new: true})
+    .then(cohort => {
+      console.log(cohort)
+    })
+    res.json(student)
+  })
+  .catch(error => console.log(error))
 })
 
 router.get('/all', (req, res) => {

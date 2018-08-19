@@ -16,7 +16,7 @@ router.get('/:id/students', (req, res) => {
 })
 
 router.patch('/update/:id', (req, res, next) => {
-  Student.findOne({email: req.body.email})
+  Student.findOne({email: req.body})
   .then(user => {
     Cohort.findByIdAndUpdate(req.params.id, {$push: {students: user}}, {new: true})
     .then(result => res.json(result)).catch(error => console.log(error))
