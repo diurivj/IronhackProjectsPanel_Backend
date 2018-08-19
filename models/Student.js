@@ -7,6 +7,9 @@ const studentSchema = new Schema({
   },
   name: String,
   lastname: String,
+  email: String,
+  github: String,
+  linkedIn: String,
   projects: [{
     type: Schema.Types.ObjectId,
     ref: 'Project'

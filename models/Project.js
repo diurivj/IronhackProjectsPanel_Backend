@@ -9,7 +9,11 @@ const projectSchema = new Schema({
   title: String,
   presentation_slides: String,
   deployed_site: String,
-  github_repo: [String]
+  github_repo: [String],
+  visible: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',
