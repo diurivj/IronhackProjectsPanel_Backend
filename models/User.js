@@ -14,6 +14,10 @@ const userSchema = new Schema({
     default: false
   },
   tokenToActive: String,
+  photoURL: {
+    type: String,
+    default: 'https://cdn-images-1.medium.com/max/1200/1*69RcxrWXuk385lSxkIYYLA.png'
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',

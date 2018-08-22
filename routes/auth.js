@@ -1,29 +1,11 @@
-const router = require('express').Router();
-const User = require('../models/User');
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
-const expressjwt = require('express-jwt');
+const router         = require('express').Router();
+const User           = require('../models/User');
+const passport       = require('passport');
+const jwt            = require('jsonwebtoken');
+const expressjwt     = require('express-jwt');
 const sendInvitation = require('../helpers/singInInvitation').sendInvitation;
-
-function jwtdiuri(req, res, next) {
-  console.log(req.headers);
-  let token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['authorization'];
-  if (token) {
-    jwt.verify(token, "diuri", function(err, decoded) {      
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });    
-      } else {
-        req.decoded = decoded;    
-        next();
-      }
-    });
-  } else {
-      return res.status(403).send({ 
-      success: false, 
-      message: 'No token provided.' 
-    });
-  }
-}
+const multer         = require('multer');
+const upload         = multer({ dest: './public/uploads' });
 
 router.post('/invitation', (req,res,next)=>{
   const token = req.body.token;
@@ -44,7 +26,7 @@ router.post('/invitation', (req,res,next)=>{
   }
 })
 
-router.post('/signup', (req,res,next)=>{
+router.post('/signup', (req,res,next) => {
   User.register(req.body, req.body.password)
   .then(user=>{
     sendInvitation(user);
@@ -65,8 +47,35 @@ router.post('/login', passport.authenticate('local'), (req,res,next)=>{
   res.send({user, access_token: token});
 });
 
+router.patch('/edit/profile/:id', upload.single('photoURL'), (req, res, next) => {
+  req.body.photoURL = `${req.protocol}://${req.headers.host}/uploads/` + req.file.filename + '.jpg';
+  User.findByIdAndUpdate(req.params.id, {photoURL: req.body.photoURL}, {new: true})
+  .then(user => res.json(user))
+  .catch(error => res.send(error))
+});
+
 const jwtCheck = expressjwt({
   secret: "diuri"
 });
+
+function jwtdiuri(req, res, next) {
+  console.log(req.headers);
+  let token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['authorization'];
+  if (token) {
+    jwt.verify(token, "diuri", function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        req.decoded = decoded;    
+        next();
+      }
+    });
+  } else {
+      return res.status(403).send({ 
+      success: false, 
+      message: 'No token provided.' 
+    });
+  }
+}
 
 module.exports = router;
