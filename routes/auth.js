@@ -49,7 +49,7 @@ router.post('/login', passport.authenticate('local'), (req,res,next)=>{
 
 router.patch('/edit/profile/:id', upload.single('photoURL'), (req, res, next) => {
   req.body.photoURL = `${req.protocol}://${req.headers.host}/uploads/` + req.file.filename;
-  User.findByIdAndUpdate(req.params.id, {photoURL: req.body.photoURL}, {new: true})
+  User.findByIdAndUpdate(req.params.id, {...req.body, photoURL: req.body.photoURL}, {new: true})
   .then(user => res.json(user))
   .catch(error => res.send(error))
 });
