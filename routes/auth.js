@@ -7,7 +7,7 @@ const sendInvitation = require('../helpers/singInInvitation').sendInvitation;
 const multer         = require('multer');
 const upload         = multer({ dest: './public/uploads' });
 
-router.post('/invitation', (req,res,next)=>{
+router.post('/invitation', (req,res,next) => {
   const token = req.body.token;
   if(token) {
     User.findOne({tokenToActive:token})
@@ -26,6 +26,12 @@ router.post('/invitation', (req,res,next)=>{
   }
 })
 
+router.get('/loggedUser/:id', (req, res) => {
+  User.findById(req.params.id)
+  .then(user => res.json(user))
+  .catch(error => console.log(error));
+});
+
 router.post('/signup', (req,res,next) => {
   User.register(req.body, req.body.password)
   .then(user=>{
@@ -38,7 +44,7 @@ router.post('/signup', (req,res,next) => {
   });
 });
 
-router.post('/login', passport.authenticate('local'), (req,res,next)=>{
+router.post('/login', passport.authenticate('local'), (req,res,next) => {
   const user = req.user;
   const token = jwt.sign({
     sub: req.user._id,
