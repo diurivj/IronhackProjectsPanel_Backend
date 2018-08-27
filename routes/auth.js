@@ -7,6 +7,8 @@ const sendInvitation = require('../helpers/singInInvitation').sendInvitation;
 const multer         = require('multer');
 const upload         = multer({ dest: './public/uploads' });
 
+const checkUser = expressjwt({secret: 'diuri'})
+
 router.post('/invitation', (req,res,next) => {
   const token = req.body.token;
   if(token) {
@@ -26,10 +28,10 @@ router.post('/invitation', (req,res,next) => {
   }
 })
 
-router.get('/loggedUser/:id', (req, res) => {
-  User.findById(req.params.id)
+router.get('/loggedUser', checkUser, (req, res) => {
+  User.findById(req.user.sub)
   .then(user => res.json(user))
-  .catch(error => console.log(error));
+  .catch(error => console.log(error))
 });
 
 router.post('/signup', (req,res,next) => {
