@@ -6,8 +6,8 @@ const userSchema = new Schema({
   email: String,
   role: {
     type: String,
-    default: 'user',
-    enum: ['user', 'admin']
+    default: 'student',
+    enum: ['student', 'admin']
   },
   active: {
     type: Boolean,
