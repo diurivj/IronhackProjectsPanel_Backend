@@ -1,8 +1,16 @@
 const router  = require('express').Router()
 const Project = require('../models/Project')
+const User    = require('../models/User')
 
 router.post('/create_new', (req, res, next) => {
-  Project.create(req.body).then(result => res.json(result)).catch(e => console.log(e))
+  Project.create(req.body)
+  .then(result => {
+    User.findByIdAndUpdate(result.student, {$push: {projects: result._id}}, {new:true})
+    .then(user => user)
+     return res.json(result)
+  })
+  .catch(e => console.log(e))
+  
 })
 
 router.get('/all', (req, res) => {

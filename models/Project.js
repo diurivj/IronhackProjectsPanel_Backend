@@ -3,7 +3,7 @@ const Schema = require('mongoose').Schema
 const projectSchema = new Schema({
   student: {
     type: Schema.Types.ObjectId,
-    ref: 'Student'
+    ref: 'User'
   },
   number_project: Number,
   title: String,

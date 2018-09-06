@@ -11,7 +11,7 @@ const checkUser = expressjwt({secret: 'diuri'})
 
 router.post('/invitation', (req,res,next) => {
   const token = req.body.token;
-  if(token) {
+  if (token) {
     User.findOne({tokenToActive:token})
     .then(user=>{
       return user.setPassword(req.body.password)
@@ -24,7 +24,6 @@ router.post('/invitation', (req,res,next) => {
     .catch(e=>next(e));
   } else {
     console.log('error')
-    res.redirect('/');
   }
 })
 

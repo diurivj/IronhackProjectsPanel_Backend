@@ -17,7 +17,11 @@ const userSchema = new Schema({
   photoURL: {
     type: String,
     default: 'https://cdn-images-1.medium.com/max/1200/1*69RcxrWXuk385lSxkIYYLA.png'
-  }
+  },
+  projects: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Project'
+  }]
 }, {
   timestamps: {
     createdAt: 'created_at',
