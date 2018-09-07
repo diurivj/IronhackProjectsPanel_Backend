@@ -21,7 +21,11 @@ const userSchema = new Schema({
   projects: [{
     type: Schema.Types.ObjectId,
     ref: 'Project'
-  }]
+  }],
+  cohort: {
+    type: Schema.Types.ObjectId,
+    ref: 'Cohort'
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',

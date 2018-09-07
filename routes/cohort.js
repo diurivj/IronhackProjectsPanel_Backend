@@ -22,7 +22,6 @@ router.patch('/update/:id', (req, res, next) => {
     .then(result => res.json(result)).catch(error => console.log(error))
   })
   .catch(error => console.log(error))
-
 })
 
 module.exports = router
