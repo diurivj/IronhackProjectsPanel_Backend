@@ -6,8 +6,7 @@ const cohortSchema = new Schema({
     ref: 'Student'
   }],
   date: String,
-  name: String,
-  generation: Number
+  name: String
 }, {
   timestamps: {
     createdAt: 'created_at',
