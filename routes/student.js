@@ -11,20 +11,20 @@ router.put('/create_new', (req, res, next) => {
     res.json(student)
   })
   .catch(error => console.log(error))
-})
+});
 
 router.get('/all', (req, res) => {
   Student.find().populate('cohort').then(result => res.json(result)).catch(error => console.log(error))
-})
+});
 
 router.get('/project/:id', (req, res) => {
   Student.findById(req.params.id).populate('projects')
   .then(result => res.json(result)).catch(error => console.log(error))
-})
+});
 
 router.get('/cohort/:id', (req, res) => {
   Student.find({"cohort": req.params.id}).populate('projects')
   .then(result => res.json(result)).catch(error => console.log(error))
-})
+});
 
-module.exports = router
+module.exports = router;
