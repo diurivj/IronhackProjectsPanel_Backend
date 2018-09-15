@@ -1,6 +1,7 @@
 const router  = require('express').Router()
 const Student = require('../models/Student') 
 const Cohort  = require('../models/Cohort')
+const User    = require('../models/User')
 
 router.put('/create_new', (req, res, next) => {
   Student.create(req.body)
@@ -23,7 +24,7 @@ router.get('/project/:id', (req, res) => {
 });
 
 router.get('/cohort/:id', (req, res) => {
-  Student.find({"cohort": req.params.id}).populate('projects')
+  User.find({"cohort": req.params.id}).populate('projects')
   .then(result => res.json(result)).catch(error => console.log(error))
 });
 
