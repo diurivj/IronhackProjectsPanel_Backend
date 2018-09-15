@@ -18,6 +18,7 @@ const userSchema = new Schema({
     type: String,
     default: 'https://cdn-images-1.medium.com/max/1200/1*69RcxrWXuk385lSxkIYYLA.png'
   },
+  //ONLY IF THEY ARE STUDENTS WILL HAVE THIS PROPERTIES//
   projects: [{
     type: Schema.Types.ObjectId,
     ref: 'Project'
