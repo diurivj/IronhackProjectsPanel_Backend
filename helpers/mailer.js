@@ -30,7 +30,7 @@ exports.welcomeMail = (id, username, email, password) => {
     subject: 'Bienvenido a Projects Panel',
     html:
       `
-        <p>Bienvenido ${username}, ahora eres parte de <a href='http:localhost:3000/login'>Ironhack Projects</a></p>. <br/>
+        <p>Bienvenido ${username}, ahora eres parte de <a href='https://diurivj.com/login'>Ironhack Projects</a></p>. <br/>
         <p>Puedes acceder con este mismo correo y el siguiente password: <h2>${password}</h2></p>
       `
   }).then(info => console.log(info)).catch(error => console.log(error))
