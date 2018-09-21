@@ -1,12 +1,18 @@
 const nodemailer = require('nodemailer')
+const jwt = require('jsonwebtoken')
+const User = require('../models/User')
 require('dotenv').config();
 
-const genToken = (id, email) => {
+function genToken(id, email){
   const token = jwt.sign({
     sub: id,
     username: email
   }, "diuri", {expiresIn:"72 hours"} //si no lo pones no expira
-)}
+);
+  User.findByIdAndUpdate(id, {tokenToActive:token})
+  .then(user=>token)
+  .catch(e=>console.log(e));  
+}
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',

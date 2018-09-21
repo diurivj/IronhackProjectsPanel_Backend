@@ -40,7 +40,7 @@ router.post('/signup', (req, res, next) => {
   User.register(req.body, h4$$hP4$$)
   .then(user => {
     sendMail.welcomeMail(user._id, username, email, h4$$hP4$$)
-    return res.status(201).json(user)
+    res.status(201).send(user)
   })
   .catch(error => res.status(400).send(error))
 })
