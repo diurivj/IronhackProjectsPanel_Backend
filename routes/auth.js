@@ -56,8 +56,11 @@ router.post('/login', passport.authenticate('local'), (req,res,next) => {
 });
 
 router.patch('/edit/profile/:id', uploadCloud.single('photoURL'), (req, res, next) => {
-  if (req.body.photoURL) req.body.photoURL = req.file.url
-  req.body.photoURL = 'https://cdn-images-1.medium.com/max/1200/1*69RcxrWXuk385lSxkIYYLA.png'
+  if (req.body.photoURL) {
+    req.body.photoURL = req.file.url
+  } else {
+    req.body.photoURL = 'https://cdn-images-1.medium.com/max/1200/1*69RcxrWXuk385lSxkIYYLA.png'
+  }
   console.log(req.file)
   User.findByIdAndUpdate(req.params.id, {...req.body, photoURL: req.body.photoURL}, {new: true})
   .then(user => res.json(user))
