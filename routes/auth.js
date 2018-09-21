@@ -3,14 +3,14 @@ const User           = require('../models/User');
 const passport       = require('passport');
 const jwt            = require('jsonwebtoken');
 const expressjwt     = require('express-jwt');
-const sendInvitation = require('../helpers/singInInvitation').sendInvitation;
 const multer         = require('multer');
 //const upload         = multer({ dest: './public/uploads' });
 const uploadCloud    = require('../helpers/cloudinary');
+const sendMail       = require('../helpers/mailer');
 
 const checkUser = expressjwt({secret: 'diuri'})
 
-router.post('/invitation', (req,res,next) => {
+router.post('/change_password', (req, res, next) => {
   const token = req.body.token;
   if (token) {
     User.findOne({tokenToActive:token})
@@ -34,17 +34,16 @@ router.get('/loggedUser', checkUser, (req, res) => {
   .catch(error => console.log(error))
 });
 
-router.post('/signup', (req,res,next) => {
-  User.register(req.body, req.body.password)
-  .then(user=>{
-    sendInvitation(user);
-    res.json(user);
+router.post('/signup', (req, res, next) => {
+  let {username, email} = req.body
+  let h4$$hP4$$ = bcrypt.hashSync(username, bcrypt.genSaltSync(7))
+  User.register(req.body, h4$$hP4$$)
+  .then(user => {
+    sendMail.welcomeMail(user._id, username, email, h4$$hP4$$)
+    return res.status(201).json(user)
   })
-  .catch(err=>{
-    res.status(400).send(err);
-    next(err)
-  });
-});
+  .catch(error => res.status(400).send(error))
+})
 
 router.post('/login', passport.authenticate('local'), (req,res,next) => {
   const user = req.user;
