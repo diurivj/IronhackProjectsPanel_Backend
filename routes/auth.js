@@ -7,7 +7,7 @@ const multer         = require('multer');
 //const upload         = multer({ dest: './public/uploads' });
 const uploadCloud    = require('../helpers/cloudinary');
 const sendMail       = require('../helpers/mailer');
-
+const bcrypt         = require('bcrypt');
 const checkUser = expressjwt({secret: 'diuri'})
 
 router.post('/change_password', (req, res, next) => {
