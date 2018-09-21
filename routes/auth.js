@@ -5,7 +5,8 @@ const jwt            = require('jsonwebtoken');
 const expressjwt     = require('express-jwt');
 const sendInvitation = require('../helpers/singInInvitation').sendInvitation;
 const multer         = require('multer');
-const upload         = multer({ dest: './public/uploads' });
+//const upload         = multer({ dest: './public/uploads' });
+const uploadCloud    = require('../helpers/cloudinary');
 
 const checkUser = expressjwt({secret: 'diuri'})
 
@@ -54,8 +55,10 @@ router.post('/login', passport.authenticate('local'), (req,res,next) => {
   res.send({user, access_token: token});
 });
 
-router.patch('/edit/profile/:id', upload.single('photoURL'), (req, res, next) => {
-  req.body.photoURL = `${req.protocol}://${req.headers.host}/uploads/` + req.file.filename;
+router.patch('/edit/profile/:id', uploadCloud.single('photoURL'), (req, res, next) => {
+  if (req.body.photoURL) req.body.photoURL = req.file.url
+  req.body.photoURL = 'https://cdn-images-1.medium.com/max/1200/1*69RcxrWXuk385lSxkIYYLA.png'
+  console.log(req.file)
   User.findByIdAndUpdate(req.params.id, {...req.body, photoURL: req.body.photoURL}, {new: true})
   .then(user => res.json(user))
   .catch(error => res.send(error))
