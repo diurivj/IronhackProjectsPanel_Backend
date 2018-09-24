@@ -4,7 +4,8 @@ const User    = require('../models/User')
 
 router.post('/create_new', (req, res, next) => {
 	const {student} = req.body
-	Project.findOne({student, number_project})
+	const {number_project} = req.body
+	Project.findOne({$and: [{student, number_project}]})
 	.then(r => {
 	if(r == null) {
 		Project.create(req.body)
