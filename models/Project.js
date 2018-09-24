@@ -13,6 +13,10 @@ const projectSchema = new Schema({
   visible: {
     type: Boolean,
     default: false
+  },
+  cohort: {
+    type: Schema.Types.ObjectId,
+    ref: 'Cohort'
   }
 }, {
   timestamps: {
