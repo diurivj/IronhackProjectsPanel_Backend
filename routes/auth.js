@@ -10,6 +10,7 @@ const sendMail       = require('../helpers/mailer');
 const bcrypt         = require('bcrypt');
 const checkUser = expressjwt({secret: 'diuri'})
 
+//this route is when you do a login for first time, change your password for the first time//
 router.post('/change_password', (req, res, next) => {
   const token = req.body.token;
   if (token) {
@@ -26,6 +27,15 @@ router.post('/change_password', (req, res, next) => {
   } else {
     console.log('error')
   }
+})
+//this route is when you forgot your password//
+router.post('/recover_password', (req, res, next) => {
+  const {email} = req.body
+  User.findOne({email})
+  .then(user => {
+    if (!user) return res.json({message: 'User not found, check your email'})
+    res.json(user)
+  })
 })
 
 router.get('/loggedUser', checkUser, (req, res) => {
