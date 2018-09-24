@@ -36,6 +36,7 @@ router.post('/recover_password', (req, res, next) => {
     if (!user) return res.json({message: 'User not found, check your email'})
     res.json(user)
   })
+  .catch(e => res.json(e))
 })
 
 router.get('/loggedUser', checkUser, (req, res) => {
