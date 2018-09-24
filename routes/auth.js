@@ -8,7 +8,7 @@ const multer         = require('multer');
 const uploadCloud    = require('../helpers/cloudinary');
 const sendMail       = require('../helpers/mailer');
 const bcrypt         = require('bcrypt');
-const checkUser = expressjwt({secret: 'diuri'})
+const checkUser      = expressjwt({secret: 'diuri'})
 
 //this route is when you do a login for first time, change your password for the first time//
 router.post('/change_password', (req, res, next) => {
@@ -33,8 +33,12 @@ router.post('/recover_password', (req, res, next) => {
   const {email} = req.body
   User.findOne({email})
   .then(user => {
-    if (!user) return res.json({message: 'User not found, check your email'})
-    res.json(user)
+    if (!user) {
+      return res.json({error: 'User not found, check your email'})
+    } else {
+      sendMail.recoverPassword(user.tokenToActive, user.email)
+      return res.json({token: user.tokenToActive})  
+    }
   })
   .catch(e => res.json(e))
 })

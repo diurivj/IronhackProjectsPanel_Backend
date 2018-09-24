@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 require('dotenv').config();
 
-function genToken(id, email){
+const genToken = (id, email) => {
   const token = jwt.sign({
     sub: id,
     username: email
@@ -27,11 +27,23 @@ exports.welcomeMail = (id, username, email, password) => {
   transporter.sendMail({
     from: 'Ironhack Projects Panel',
     to: email,
-    subject: 'Bienvenido a Projects Panel',
+    subject: 'Welcome to the Ironhack Projects Panel',
     html:
       `
-        <p>Bienvenido ${username}, ahora eres parte de <a href='https://diurivj.com/login'>Ironhack Projects</a></p>. <br/>
-        <p>Puedes acceder con este mismo correo y el siguiente password: <h2>${password}</h2></p>
+        <p>Welcome ${username}, now you are part of <a href='https://diurivj.com/login'>Ironhack Projects</a></p>. <br/>
+        <p>You can access with this email and the following password: <h4>${password}</h4></p>
       `
+  }).then(info => console.log(info)).catch(error => console.log(error))
+}
+
+exports.recoverPassword = (token, email) => {
+  transporter.sendMail({
+    from: 'Ironhack Projects Panel',
+    to: email,
+    subject: 'Recover your password',
+    html: 
+    `
+      <p>Go to this link for reset your password: <a href='https://diurivj.com/reset_password/${token}'>RESET PASSWORD</a>
+    `
   }).then(info => console.log(info)).catch(error => console.log(error))
 }
