@@ -31,6 +31,13 @@ router.get('/user/:id', (req, res) => {
   .then(result => res.json(result)).catch(error => console.log(error))
 });
 
+router.get('/:cohort/project/:number_project', (req, res, next) => {
+	const {cohort, number_project} = req.params
+	Project.find({$and: [{cohort}, {number_project}]}).populate('student', 'username')
+	.then(response => res.json(response))
+	.catch(e => console.log(e))
+})
+
 
 /***
  * Rutas chidas de David
